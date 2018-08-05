@@ -344,9 +344,14 @@ Add a new todo:
 Get all our current todos:
 > curl GET localhost:3000/todo
 
-If this works, we will now get a response with our single todo item on our list, suggesting that I should finish writing this article. Great! Time to celebrate! Not quite... we have one issue. Right now, anyone can use our todo list. That's not good, we want to make sure that only people that we trust can access and edit our todo list. To do this, we will utilise Auth0 as a backend authentication service. First step is to setup a free account on Auth0.
+If this works, we will now get a response with our single todo item on our list, suggesting that I should finish writing this article. Great! Time to celebrate! Not quite... we have one issue. Right now, anyone can use our todo list. That's not good, we want to make sure that only people that we trust can access and edit our todo list. To do this, we will utilise Auth0 as a backend authentication service. So, let's signup for a free Auth0 account and get our application setup:
 
-<auth0-instructions></auth0-instructions>
+1. Go to https://auth0.com/signup and create a new free account. If you already have an account, you can skip this step.
+2. Login to your account and to the `Applications` tab of your Dashboard.
+3. Click the `Create New Application` button, write the desired name for your application and choose `Single Page Web Application`, before clicking the `Create` button.
+4. This will redirect you to the quickstart section of your application. From here, go to the `Settings` tabs. Here, you will find all the important information about your application, that we will need to communicate with Auth0 from both our backend and frontend applications. Most importantly: `Domain` and `Client ID`.
+5. Stay on this page, there is two additional setup steps. Go to the `Allowed Callback URLs` section of the page and add: `http://localhost:3000/callback, http://localhost:4200/callback`
+6. ...and last thing to setup. Go to the `Allowed Logout URLs` section of the page and add: `http://localhost:3000/home, http://localhost:3000/`
 
 Now that our account has been setup, we need to make some changes on our backend. Essentially, we want our web api to check a service every time that a request is made towards. To do this, we will change our `main.go` file to the following:
 
@@ -367,12 +372,6 @@ import (
 
 	"github.com/Pungyeon/golang-auth0-example/handlers"
 )
-
-/* USAGE:
- * Set the environment variables:
- * 	AUTH0_CLIEN_ID
- * 	AUTH0_DOMAIN: "https://pungy.eu.auth0.com/" (very importantly not omitting the last /)
- */
 
 var (
 	audience string
